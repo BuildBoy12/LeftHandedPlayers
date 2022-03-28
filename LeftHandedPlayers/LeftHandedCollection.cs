@@ -11,6 +11,7 @@ namespace LeftHandedPlayers
     using System.IO;
     using Exiled.API.Features;
     using Exiled.Loader;
+    using UnityEngine;
 
     /// <summary>
     /// Handles an underlying <see cref="HashSet{T}"/> of user ids that should be considered to be left handed.
@@ -25,6 +26,11 @@ namespace LeftHandedPlayers
         /// </summary>
         /// <param name="plugin">An instance of the <see cref="Plugin"/> class.</param>
         public LeftHandedCollection(Plugin plugin) => this.plugin = plugin;
+
+        /// <summary>
+        /// Gets the vector that objects should be scaled by to be flipped.
+        /// </summary>
+        public static Vector3 ScaleVector { get; } = new Vector3(-1, 1, 1);
 
         /// <summary>
         /// Adds a player to the collection.

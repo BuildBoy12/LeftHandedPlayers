@@ -45,7 +45,6 @@ namespace LeftHandedPlayers
             ServerHandlers.RoundEnded += serverEvents.OnRoundEnded;
             ServerHandlers.WaitingForPlayers += serverEvents.OnWaitingForPlayers;
             PlayerHandlers.Verified += playerEvents.OnVerified;
-            PlayerHandlers.ChangingItem += playerEvents.OnChangingItem;
             base.OnEnabled();
         }
 
@@ -55,7 +54,6 @@ namespace LeftHandedPlayers
             ServerHandlers.RoundEnded -= serverEvents.OnRoundEnded;
             ServerHandlers.WaitingForPlayers -= serverEvents.OnWaitingForPlayers;
             PlayerHandlers.Verified -= playerEvents.OnVerified;
-            PlayerHandlers.ChangingItem -= playerEvents.OnChangingItem;
             serverEvents = null;
             playerEvents = null;
             LeftHandedCollection = null;

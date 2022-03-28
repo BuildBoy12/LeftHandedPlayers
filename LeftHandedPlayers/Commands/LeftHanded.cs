@@ -10,6 +10,7 @@ namespace LeftHandedPlayers.Commands
     using System;
     using CommandSystem;
     using Exiled.API.Features;
+    using UnityEngine;
 
     /// <inheritdoc />
     public class LeftHanded : ICommand
@@ -40,15 +41,15 @@ namespace LeftHandedPlayers.Commands
                 return false;
             }
 
-            if (player.Scale.x > 0)
+            if (player.Scale.x > 0f)
             {
-                player.Scale.Scale(new UnityEngine.Vector3(-1, 1, 1));
+                player.Scale = Vector3.Scale(player.Scale, LeftHandedCollection.ScaleVector);
                 plugin.LeftHandedCollection.Add(player);
                 response = "You are now left handed";
                 return true;
             }
 
-            player.Scale.Scale(new UnityEngine.Vector3(-1, 1, 1));
+            player.Scale = Vector3.Scale(player.Scale, LeftHandedCollection.ScaleVector);
             plugin.LeftHandedCollection.Remove(player);
             response = "You are no longer left handed";
             return true;
