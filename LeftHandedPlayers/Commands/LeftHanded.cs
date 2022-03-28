@@ -1,59 +1,57 @@
-﻿using System;
-using CommandSystem;
-using Player = Exiled.API.Features.Player;
-using RemoteAdmin;
+﻿// -----------------------------------------------------------------------
+// <copyright file="LeftHanded.cs" company="Build">
+// Copyright (c) Build. All rights reserved.
+// Licensed under the CC BY-SA 3.0 license.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace LeftHandedPlayers.Commands
 {
-    [CommandHandler(typeof(ClientCommandHandler))]
+    using System;
+    using CommandSystem;
+    using Exiled.API.Features;
+
+    /// <inheritdoc />
     public class LeftHanded : ICommand
     {
-        public string Command { get; } = "lefthanded";
+        private readonly Plugin plugin;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LeftHanded"/> class.
+        /// </summary>
+        /// <param name="plugin">An instance of the <see cref="Plugin"/> class.</param>
+        public LeftHanded(Plugin plugin) => this.plugin = plugin;
+
+        /// <inheritdoc />
+        public string Command => "lefthanded";
+
+        /// <inheritdoc />
         public string[] Aliases { get; } = { "left", "lefthand" };
 
-        public string Description { get; } = "Makes you left handed";
+        /// <inheritdoc />
+        public string Description => "Makes you left handed";
 
+        /// <inheritdoc />
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            // Converts the command sender to a player object and ensures command is being run ingame
-            if (Player.Get(sender) is Player player)
+            if (!(Player.Get(sender) is Player player))
             {
-                // Ensures they are not left handed before applying the change
-                if (player.Scale.x > 0)
-                {
-                    // Applies the left hand change
-                    player.Scale.Scale(new UnityEngine.Vector3(-1, 1, 1));
-
-                    // Checks the player does not have DNT on before adding them to the saved list of left handed players
-                    if (!player.DoNotTrack) LeftHandedPlayers.Instance.LeftHandList.Add(player.UserId);
-
-                    // Removes them from the removal list if on it
-                    LeftHandedPlayers.Instance.ToRemoveList.Remove(player.UserId);
-
-                    // Informs the player that the command worked
-                    response = "You are now left handed";
-                    return true;
-                }
-                else
-                {
-                    // Makes the player no longer appear left handed
-                    player.Scale = UnityEngine.Vector3.Scale(player.Scale, new UnityEngine.Vector3(-1, 1, 1));
-
-                    // Adds them to the removal list if they don't have DNT on and removes from left handed list if on it
-                    if (!player.DoNotTrack) LeftHandedPlayers.Instance.ToRemoveList.Add(player.UserId);
-                    LeftHandedPlayers.Instance.LeftHandList.Remove(player.UserId);
-
-                    // Informs the player that the command worked
-                    response = "You are no longer left handed";
-                    return true;
-                }
-            }
-            else
-            {
-                response = "This command can only be used ingame";
+                response = "This command can only be used in game.";
                 return false;
             }
+
+            if (player.Scale.x > 0)
+            {
+                player.Scale.Scale(new UnityEngine.Vector3(-1, 1, 1));
+                plugin.LeftHandedCollection.Add(player);
+                response = "You are now left handed";
+                return true;
+            }
+
+            player.Scale.Scale(new UnityEngine.Vector3(-1, 1, 1));
+            plugin.LeftHandedCollection.Remove(player);
+            response = "You are no longer left handed";
+            return true;
         }
     }
 }

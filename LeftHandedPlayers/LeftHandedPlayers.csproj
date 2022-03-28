@@ -1,83 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{82EFE8FF-A413-4955-AE94-67F7B2282D0C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LeftHandedPlayers</RootNamespace>
     <AssemblyName>LeftHandedPlayers</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Authors>Build</Authors>
+    <Version>1.0.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Documents\Dev\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-Publicized">
-      <HintPath>..\..\..\..\Documents\Dev\Assembly-CSharp-Publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="CommandSystem.Core">
-      <HintPath>..\..\..\..\Documents\Dev\CommandSystem.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.API">
-      <HintPath>..\..\..\..\Downloads\Exiled.tar\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Events">
-      <HintPath>..\..\..\..\Downloads\Exiled.tar\EXILED\Plugins\Exiled.Events.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Loader">
-      <HintPath>..\..\..\..\Downloads\Exiled.tar\EXILED\Exiled.Loader.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Permissions">
-      <HintPath>..\..\..\..\Downloads\Exiled.tar\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="Mirror-Publicized">
-      <HintPath>..\..\..\..\Documents\Dev\Mirror-Publicized.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\Documents\Dev\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="YamlDotNet">
-      <HintPath>..\..\..\..\Downloads\Exiled.tar\EXILED\Plugins\dependencies\YamlDotNet.dll</HintPath>
-    </Reference>
+    <PackageReference Include="EXILED" Version="5.0.0-beta.5" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Include="YamlDotNet" Version="9.1.4" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="Commands\LeftHanded.cs" />
-    <Compile Include="Handlers\Player.cs" />
-    <Compile Include="Handlers\Server.cs" />
-    <Compile Include="LeftHandedPlayers.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Reference Include="Assembly-CSharp-firstpass" HintPath="$(EXILED_References)\Assembly-CSharp-firstpass.dll" Private="false" />
+    <Reference Include="Mirror" HintPath="$(EXILED_References)\Mirror.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(EXILED_References)\UnityEngine.CoreModule.dll" Private="false" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
