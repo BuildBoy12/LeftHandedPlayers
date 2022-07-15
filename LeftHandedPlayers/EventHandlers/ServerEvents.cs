@@ -23,15 +23,9 @@ namespace LeftHandedPlayers.EventHandlers
         public ServerEvents(Plugin plugin) => this.plugin = plugin;
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Server.OnRoundEnded(RoundEndedEventArgs)"/>
-        public void OnRoundEnded(RoundEndedEventArgs ev)
-        {
-            plugin.LeftHandedCollection.Save();
-        }
+        public void OnRoundEnded(RoundEndedEventArgs ev) => plugin.LeftHandedCollection.Save();
 
         /// <inheritdoc cref="Exiled.Events.Handlers.Server.OnWaitingForPlayers()"/>
-        public void OnWaitingForPlayers()
-        {
-            plugin.LeftHandedCollection.Load();
-        }
+        public void OnWaitingForPlayers() => plugin.LeftHandedCollection.Load();
     }
 }

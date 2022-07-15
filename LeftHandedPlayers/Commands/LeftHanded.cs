@@ -8,6 +8,7 @@
 namespace LeftHandedPlayers.Commands
 {
     using System;
+    using System.ComponentModel;
     using CommandSystem;
     using Exiled.API.Features;
     using UnityEngine;
@@ -15,27 +16,31 @@ namespace LeftHandedPlayers.Commands
     /// <inheritdoc />
     public class LeftHanded : ICommand
     {
-        private readonly Plugin plugin;
+        /// <inheritdoc />
+        public string Command { get; set; } = "lefthanded";
+
+        /// <inheritdoc />
+        public string[] Aliases { get; set; } = { "left", "lefthand" };
+
+        /// <inheritdoc />
+        public string Description { get; set; } = "Makes you left handed";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LeftHanded"/> class.
+        /// Gets or sets the response to provide when the player becomes left handed.
         /// </summary>
-        /// <param name="plugin">An instance of the <see cref="Plugin"/> class.</param>
-        public LeftHanded(Plugin plugin) => this.plugin = plugin;
+        [Description("The response to provide when the player becomes left handed.")]
+        public string LeftHandedResponse { get; set; } = "You are now left handed";
 
-        /// <inheritdoc />
-        public string Command => "lefthanded";
-
-        /// <inheritdoc />
-        public string[] Aliases { get; } = { "left", "lefthand" };
-
-        /// <inheritdoc />
-        public string Description => "Makes you left handed";
+        /// <summary>
+        /// Gets or sets the response to provide when the player becomes right handed.
+        /// </summary>
+        [Description("The response to provide when the player becomes right handed.")]
+        public string RightHandedResponse { get; set; } = "You are now right handed";
 
         /// <inheritdoc />
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!(Player.Get(sender) is Player player))
+            if (Player.Get(sender) is not Player player)
             {
                 response = "This command can only be used in game.";
                 return false;
@@ -44,14 +49,14 @@ namespace LeftHandedPlayers.Commands
             if (player.Scale.x > 0f)
             {
                 player.Scale = Vector3.Scale(player.Scale, LeftHandedCollection.ScaleVector);
-                plugin.LeftHandedCollection.Add(player);
-                response = "You are now left handed";
+                Plugin.Instance.LeftHandedCollection.Add(player);
+                response = LeftHandedResponse;
                 return true;
             }
 
             player.Scale = Vector3.Scale(player.Scale, LeftHandedCollection.ScaleVector);
-            plugin.LeftHandedCollection.Remove(player);
-            response = "You are no longer left handed";
+            Plugin.Instance.LeftHandedCollection.Remove(player);
+            response = RightHandedResponse;
             return true;
         }
     }

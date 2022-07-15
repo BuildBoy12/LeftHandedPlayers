@@ -9,7 +9,6 @@ namespace LeftHandedPlayers
 {
     using System;
     using Exiled.API.Features;
-    using LeftHandedPlayers.Commands;
     using LeftHandedPlayers.EventHandlers;
     using RemoteAdmin;
     using PlayerHandlers = Exiled.Events.Handlers.Player;
@@ -18,18 +17,30 @@ namespace LeftHandedPlayers
     /// <summary>
     /// The main plugin class.
     /// </summary>
-    public class Plugin : Plugin<Config>
+    public class Plugin : Plugin<Config, Translation>
     {
         private ServerEvents serverEvents;
         private PlayerEvents playerEvents;
 
-        private LeftHanded leftHandedCommand;
+        /// <summary>
+        /// Gets an instance of the <see cref="Plugin"/> class.
+        /// </summary>
+        public static Plugin Instance { get; private set; }
 
         /// <inheritdoc />
         public override string Author => "Build";
 
         /// <inheritdoc />
-        public override Version RequiredExiledVersion { get; } = new Version(5, 0, 0);
+        public override string Name => "LeftHandedPlayers";
+
+        /// <inheritdoc />
+        public override string Prefix => "LeftHandedPlayers";
+
+        /// <inheritdoc />
+        public override Version RequiredExiledVersion { get; } = new(5, 2, 2);
+
+        /// <inheritdoc />
+        public override Version Version { get; } = new(2, 0, 0);
 
         /// <summary>
         /// Gets the collection of left handed players.
@@ -39,6 +50,7 @@ namespace LeftHandedPlayers
         /// <inheritdoc />
         public override void OnEnabled()
         {
+            Instance = this;
             LeftHandedCollection = new LeftHandedCollection(this);
             serverEvents = new ServerEvents(this);
             playerEvents = new PlayerEvents(this);
@@ -57,21 +69,20 @@ namespace LeftHandedPlayers
             serverEvents = null;
             playerEvents = null;
             LeftHandedCollection = null;
+            Instance = null;
             base.OnDisabled();
         }
 
         /// <inheritdoc />
         public override void OnRegisteringCommands()
         {
-            leftHandedCommand = new LeftHanded(this);
-            QueryProcessor.DotCommandHandler.RegisterCommand(leftHandedCommand);
+            QueryProcessor.DotCommandHandler.RegisterCommand(Translation.Command);
         }
 
         /// <inheritdoc />
         public override void OnUnregisteringCommands()
         {
-            QueryProcessor.DotCommandHandler.UnregisterCommand(leftHandedCommand);
-            leftHandedCommand = null;
+            QueryProcessor.DotCommandHandler.UnregisterCommand(Translation.Command);
         }
     }
 }

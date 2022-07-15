@@ -30,7 +30,7 @@ namespace LeftHandedPlayers
         /// <summary>
         /// Gets the vector that objects should be scaled by to be flipped.
         /// </summary>
-        public static Vector3 ScaleVector { get; } = new Vector3(-1, 1, 1);
+        public static Vector3 ScaleVector { get; } = new(-1, 1, 1);
 
         /// <summary>
         /// Adds a player to the collection.
